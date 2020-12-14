@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\OrderController;
+use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,12 +21,10 @@ use Illuminate\Support\Facades\Route;
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
-Route::middleware('auth:api')->group(function () {
-   
-});
-
-
 
 Route::get('users', [UserController::class, 'index'])->name('users.index');
 Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
 Route::get('orders/{user}', [OrderController::class, 'show']);
+
+Route::get('post', [PostController::class, 'index']);
+Route::post('post', [PostController::class, 'store']);
