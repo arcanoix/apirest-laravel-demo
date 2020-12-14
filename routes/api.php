@@ -28,3 +28,4 @@ Route::middleware('auth:api')->group(function () {
 
 Route::get('users', [UserController::class, 'index'])->name('users.index');
 Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
+Route::get('orders/{user}', [OrderController::class, 'show']);

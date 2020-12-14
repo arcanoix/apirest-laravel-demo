@@ -16,4 +16,11 @@ class OrderController extends Controller
         return OrderResource::collection($orders);
     }
 
+    public function show($user)
+    {
+        $orders = Order::where('user_id', $user)->get();   
+
+        return OrderResource::collection($orders);
+    }
+
 }

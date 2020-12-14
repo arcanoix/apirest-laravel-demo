@@ -2107,6 +2107,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2115,7 +2136,10 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       users: [],
-      pagination: {}
+      orders_data: [],
+      address_data: [],
+      pagination: {},
+      active: 1
     };
   },
   created: function created() {
@@ -2136,6 +2160,19 @@ __webpack_require__.r(__webpack_exports__);
         _this.users = data.data;
         _this.pagination = data.meta;
       });
+    },
+    orders: function orders(user) {
+      var _this2 = this;
+
+      this.active = 2;
+      axios.get("/api/orders/".concat(user)).then(function (_ref2) {
+        var data = _ref2.data;
+        return _this2.orders_data = data.data;
+      });
+    },
+    address: function address() {},
+    back: function back(data) {
+      this.active = data;
     }
   }
 });
@@ -37960,34 +37997,94 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("table", { staticClass: "table table-responsive" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "tbody",
-          _vm._l(_vm.users, function(user) {
-            return _c("tr", { key: user.id }, [
-              _c("td", [_vm._v(_vm._s(user.name))]),
+  return _c("div", [
+    _vm.active == 1
+      ? _c(
+          "div",
+          [
+            _c("table", { staticClass: "table table-responsive" }, [
+              _vm._m(0),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(user.email))]),
-              _vm._v(" "),
-              _vm._m(1, true)
-            ])
-          }),
-          0
+              _c(
+                "tbody",
+                _vm._l(_vm.users, function(user) {
+                  return _c("tr", { key: user.id }, [
+                    _c("td", [_vm._v(_vm._s(user.name))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(user.email))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-success",
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              return _vm.orders(user.id)
+                            }
+                          }
+                        },
+                        [_vm._v("Ver ordenes")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-warning",
+                          attrs: { href: "#" }
+                        },
+                        [_vm._v("Ver Direcciones")]
+                      )
+                    ])
+                  ])
+                }),
+                0
+              )
+            ]),
+            _vm._v(" "),
+            _c("paginator", {
+              attrs: { pagination: _vm.pagination },
+              on: { changePage: _vm.index }
+            })
+          ],
+          1
         )
-      ]),
-      _vm._v(" "),
-      _c("paginator", {
-        attrs: { pagination: _vm.pagination },
-        on: { changePage: _vm.index }
-      })
-    ],
-    1
-  )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.active == 2
+      ? _c("div", [
+          _c(
+            "a",
+            {
+              attrs: { href: "#" },
+              on: {
+                click: function($event) {
+                  return _vm.back(1)
+                }
+              }
+            },
+            [_vm._v("Volver")]
+          ),
+          _vm._v(" "),
+          _c("table", { staticClass: "table table-responsive" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.orders_data, function(order) {
+                return _c("tr", { key: order.id }, [
+                  _c("td", [_vm._v(_vm._s(order.id))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(order.total))])
+                ])
+              }),
+              0
+            )
+          ])
+        ])
+      : _vm._e()
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -38006,14 +38103,10 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("a", { staticClass: "btn btn-success", attrs: { href: "#" } }, [
-        _vm._v("Ver ordenes")
-      ]),
+    return _c("thead", [
+      _c("th", [_vm._v("Order")]),
       _vm._v(" "),
-      _c("a", { staticClass: "btn btn-warning", attrs: { href: "#" } }, [
-        _vm._v("Ver Direcciones")
-      ])
+      _c("th", [_vm._v("Total")])
     ])
   }
 ]
