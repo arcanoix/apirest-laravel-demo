@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
@@ -15,8 +16,8 @@ class Product extends Model
     protected $guarded = [];
 
 
-    public function Orders() : HasMany
+    public function Orders() : BelongsToMany
     {
-        return $this->hasMany(Order::class);
+        return $this->BelongsToMany(Order::class, 'orders_products');
     }
 }

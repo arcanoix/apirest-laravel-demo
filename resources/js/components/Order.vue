@@ -1,41 +1,38 @@
 <template>
+
     <div>
-        <table class="table table-responsive">
+            <table class="table table-responsive">
             <thead>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>...</th>
+                <th>#</th>
+                <th>Cliente</th>
+                <th>Total</th>
             </thead>
             <tbody>
-                <tr v-for="user in users" :key="user.id">
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>
-                        <a href="#" class="btn btn-success">Ver ordenes</a>
-                        <a href="#" class="btn btn-warning">Ver Direcciones</a>
-                    </td>
+                <tr v-for="order in orders" :key="order.id">
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.customer.name }}</td>
+                    <td>{{ order.total }}</td>
                 </tr>
             </tbody>
         </table>
           <paginator :pagination="pagination" @changePage="index"></paginator>
     </div>
+
 </template>
-
+    
 <script>
-
 import Paginator from './Paginator';
 
- export default {
+    export default {
+         components: {Paginator},
 
-        components: {Paginator},
-     
         data() {
             return {
-                users: [],
+                orders:[],
                 pagination: {}
             }
         },
-
+    
         created() {
             this.index();
         },
@@ -43,20 +40,20 @@ import Paginator from './Paginator';
         methods: {
             index(page = 1)
             {
-               
+
                 let params = {
                     page: page
                 };
 
-                 axios.get('/api/users', {
+                 axios.get('/api/orders', {
                         params: params
                     })
                     .then(({data}) => {
-                         this.users = data.data;
+                        console.log(data.data);
+                         this.orders = data.data;
                          this.pagination = data.meta;
                     });
             }
         }
     }
-
 </script>
